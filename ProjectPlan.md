@@ -1,2 +1,12 @@
 Overview:
 The main goal of this project is to analyze patterns of flight delays across U.S. airports and look into the relationship between flight delays and passenger traffic. By using datasets that track flight delays and passenger counts, we hope to identify key factors that contribute to delays and see if whether high passenger volumes are correlated with increased delays. In order to successfully accomplish this task we will start with cleaning the data ensuring all information is standardized across the datasets. Next, we will go through the EDA process where we will see trends and easily identify the important patterns. This will give us a better understanding of what information we will actually be working with and understand any strong correlations present. By the end of the project, we aim to provide descriptive insights about possible correlation between airport/passenger traffic and flight delays.
+Team:
+Research Questions:
+What are the main factors contributing to flight delays across U.S. airports? Are there airports consistently more prone to delays and does this correlate to their passenger volume? How does passenger traffic relate to the frequency/duration of the delays? 
+Datasets:
+[Airline_Delay_Cause.csv](https://github.com/user-attachments/files/25829604/Airline_Delay_Cause.csv)
+[Enplanement.csv](https://github.com/user-attachments/files/25829606/Enplanement.csv)
+The first dataset consist of flight and airport information mainly informing us of the causes of delay for each flight including weather, security, carrier issues, and other operational factors. This dataset allows us to quantify and categorize delay types across airports. The key attributes in this dataset are airport_code, flight_date, delay_minutes, delay_type, and carrier. The second dataset consists of information on passenger counts at different U.S. airports. This dataset allows us to understand airport congestion and better understand reasons behind delay. The key attributes are airport_code, month, year, passenger_count. Since both datasets have the airport abbreviation, we will be able to link delay information with passenger traffic metrics. This enables us to analyze how passenger volume impacts delay patterns.
+Timeline:
+Constraints:
+Gaps:

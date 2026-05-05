@@ -1,0 +1,96 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# --- Load Data ---
+df1 = pd.read_csv("C:/Users/cmgol/OneDrive/Desktop/IS 477/Airline_Delay_Cause (1).csv")
+df2 = pd.read_csv("C:/Users/cmgol/OneDrive/Desktop/IS 477/Enplanement.csv")
+
+# --- Clean Airline Delay Data ---
+Airline = df1.dropna()
+
+# Check outliers
+print(Airline['late_aircraft_delay'].describe())
+Airline_scary = Airline[Airline['late_aircraft_delay'] > 87600]
+print("Extreme outliers:", Airline_scary.count())
+
+# --- Clean Enplanement Data ---
+Enplanement = df2.dropna()
+Enplanement["CY 24 Enplanements"] = pd.to_numeric(Enplanement["CY 24 Enplanements"].str.replace(",", ""), errors="coerce")
+Enplanement["CY 23 Enplanements"] = pd.to_numeric(Enplanement["CY 23 Enplanements"].str.replace(",", ""), errors="coerce")
+Enplanement["% Change"] = pd.to_numeric(Enplanement["% Change"].str.replace("%", ""), errors="coerce")
+Enplanement["Rank"] = Enplanement["Rank"].astype(int)
+Enplanement["Hub"] = Enplanement["Hub"].fillna("Non-hub")
+
+# --- Save Cleaned CSVs ---
+Airline.to_csv("C:/Users/cmgol/Downloads/Cleaned_Airline_Delay.csv", index=False)
+Enplanement.to_csv("C:/Users/cmgol/Downloads/Cleaned_Enplanement.csv", index=False)
+
+# --- Merge ---
+merged_df = pd.merge(Airline, Enplanement, left_on="airport", right_on="Locid", how="inner")
+merged_df.to_csv("C:/Users/cmgol/Downloads/Merged_Data.csv", index=False)
+
+print("Shape:", merged_df.shape)
+print(merged_df.describe())
+
+# --- Airport Size Category ---
+merged_df["size_category"] = pd.cut(merged_df["CY 24 Enplanements"],
+                                     bins=[0, 1000000, 10000000, 30000000, 100000000],
+                                     labels=["Small", "Medium", "Large", "Mega"])
+
+# --- VISUALIZATIONS ---
+
+# 1. Average Delays by Region
+region_delays = merged_df.groupby("RO")["arr_del15"].mean().sort_values(ascending=False)
+region_delays.plot(kind="bar")
+plt.title("Average Delays by Region")
+plt.xlabel("Region")
+plt.ylabel("Average Delayed Flights")
+plt.tight_layout()
+plt.show()
+
+# 2. Delay Types by Region
+delay_types = ["carrier_delay", "weather_delay", "nas_delay", "security_delay", "late_aircraft_delay"]
+merged_df.groupby("RO")[delay_types].mean().plot(kind="bar", figsize=(12,6))
+plt.title("Average Delay Types by Region")
+plt.xlabel("Region")
+plt.ylabel("Average Delay (minutes)")
+plt.legend(loc="upper right")
+plt.tight_layout()
+plt.show()
+
+# 3. Hub vs Non-Hub
+sns.boxplot(x="Hub", y="arr_del15", data=merged_df)
+plt.title("Hub vs. Non-Hub Delay Rates")
+plt.xlabel("Hub Status")
+plt.ylabel("Delayed Flights")
+plt.tight_layout()
+plt.show()
+
+# 4. Top 20 Most Delayed Airports
+top_delayed = merged_df.groupby("airport")["arr_del15"].mean().sort_values(ascending=False).head(20)
+top_delayed.plot(kind="bar", figsize=(12,5), color="tomato")
+plt.title("Top 20 Most Delayed Airports")
+plt.xlabel("Airport")
+plt.ylabel("Average Delayed Flights")
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
+# 5. Average Delays by Airport Size
+merged_df.groupby("size_category")["arr_del15"].mean().plot(kind="bar", color="orange", figsize=(8,5))
+plt.title("Average Delays by Airport Size")
+plt.xlabel("Airport Size Category")
+plt.ylabel("Average Delayed Flights")
+plt.xticks(rotation=0)
+plt.tight_layout()
+plt.show()
+
+# 6. Average Delay Duration by Airport Size
+merged_df.groupby("size_category")["arr_delay"].mean().plot(kind="bar", color="blue", figsize=(8,5))
+plt.title("Average Delay Duration by Airport Size")
+plt.xlabel("Airport Size Category")
+plt.ylabel("Average Total Delay (minutes)")
+plt.xticks(rotation=0)
+plt.tight_layout()
+plt.show()

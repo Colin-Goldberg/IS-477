@@ -12,7 +12,7 @@ Data quality:
 
 Data cleaning: 
 
-Findings:
+Findings:In order to answer both of our research questions, we used a mixture of visualizations and regression analysis. Firstly, we looked at whether regionality has an impact on flight times. Originally, we used visualizations to answer our question, and based on a first glance, it looked like it played a major role. The Western Pacific and Southwest seemed to have the highest amount of flight delays; however, when we ran our regression analysis, we got different results. We found the R^2 to be 0.004. This is a remarkably low number and shows how little of a factor regionality is compared to others. The other research question we were trying to answer was whether busier airports saw higher delays. Again, the visualizations showed a trend. It seemed like the busier an airport was, the more delays people could expect. The mega airports had more minutes delayed and a larger total number of flights delayed. When we ran our regression analysis, we found that it backed up the visualizations. The R^2 was 0.81, which shows a large correlation. Intuitively, this is what we expected. It makes sense that the larger airports would see more delays on average. On the other hand, we thought regionality would play a much larger role than it did.
 
 Future work:
 

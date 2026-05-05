@@ -18,6 +18,6 @@ Future work:
 
 Challenges:
 
-Reproducing:
+Reproducing: 1. Download both the orignial dataset 2. Run the script for data cleaning 3. Run the analysis and visualization code 4. Run the regression models 5. Review outputs/final product
 
 References:

@@ -21,6 +21,3 @@ Reproducing:
 References:
 
 [Merged_Data.csv](https://github.com/user-attachments/files/27381873/Merged_Data.csv)
-
-[Regression.py](https://github.com/user-attachments/files/27382630/Regression.py)
-

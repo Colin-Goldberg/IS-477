@@ -1,0 +1,49 @@
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+df = pd.read_csv('/Users/shreyaanand/Desktop/is 477/Merged_Data.csv')
+df['arr_delay'] = pd.to_numeric(df['arr_delay'], errors='coerce')
+df = df.dropna(subset=['RO', 'arr_delay'])
+df_region = pd.get_dummies(df, columns=['RO'], drop_first=True)
+
+X = df_region.filter(like='RO_')
+y = df_region['arr_delay']
+
+model1 = LinearRegression()
+model1.fit(X, y)
+coef_df = pd.DataFrame({
+    'Region': X.columns,
+    'Coefficient': model1.coef_
+})
+
+print(coef_df)
+print("R^2:", model1.score(X, y))
+
+# Next Model 
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+df = pd.read_csv('/Users/shreyaanand/Desktop/is 477/Merged_Data.csv')
+df['arr_delay'] = pd.to_numeric(df['arr_delay'], errors='coerce')
+df['CY 24 Enplanements'] = pd.to_numeric(df['CY 24 Enplanements'], errors='coerce')
+df = df.dropna(subset=['arr_delay', 'CY 24 Enplanements', 'Hub'])
+df['Hub_binary'] = df['Hub'].apply(
+    lambda x: 0 if x == 'Non-hub' else 1
+)
+
+agg_df = df.groupby('airport').agg({
+    'arr_delay': 'mean',
+    'CY 24 Enplanements': 'mean',
+    'Hub_binary': 'mean'
+}).reset_index()
+
+X = agg_df[['CY 24 Enplanements', 'Hub_binary']]
+y = agg_df['arr_delay']
+
+model2 = LinearRegression()
+model2.fit(X, y)
+coef_df2 = pd.DataFrame({
+    'Variable': X.columns,
+    'Coefficient': model2.coef_
+})
+
+print(coef_df2)
+print("R^2:", model2.score(X, y))

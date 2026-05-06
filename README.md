@@ -23,4 +23,4 @@ Reproducing: 1. Download both the orignial dataset 2. Run the script for data cl
 References:
 We used 2 websites that are ofical websited of the US governemnt to get our data. 
 https://www.transtats.bts.gov/OT_Delay/OT_DelayCause1.asp?20=E 
-https://www.faa.gov/airports/planning_capacity/passenger_allcargo_stats/passenger?utm_source=chatgpt.com 
+https://www.faa.gov/airports/planning_capacity/passenger_allcargo_stats/passenger
